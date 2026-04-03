@@ -405,9 +405,172 @@
       background:linear-gradient(135deg,var(--mint),var(--lav));
     }
 
-  </style>
+  
+    .floating-toolbar{
+      position:fixed; top:18px; right:18px; z-index:9999; display:flex; gap:10px; flex-wrap:wrap;
+      padding:10px; border-radius:999px; background:rgba(255,255,255,.82); backdrop-filter: blur(12px);
+      border:1px solid rgba(255,255,255,.95); box-shadow:0 12px 32px rgba(31,54,61,.14);
+    }
+    .toolbar-btn{
+      min-width:48px; height:44px; border:none; border-radius:999px; cursor:pointer; font-weight:800;
+      padding:0 16px; background:#fff; color:var(--text); box-shadow:var(--shadow); transition:transform .22s ease, box-shadow .22s ease, background .22s ease, color .22s ease;
+      display:inline-flex; align-items:center; justify-content:center; text-decoration:none;
+    }
+    .toolbar-btn:hover{ transform:translateY(-2px) scale(1.04); box-shadow:0 18px 36px rgba(47,143,131,.22); }
+    .toolbar-btn.active{ background:linear-gradient(135deg,var(--accent),#1b7368); color:#fff; }
+    .toolbar-link{ min-width:64px; }
+
+    nav{ padding-right:300px; }
+    @media (max-width: 1100px){ nav{ padding-right:0; } }
+
+    html[data-theme="dark"]{
+      --bg:#111827;
+      --bg-soft:#0f172a;
+      --card:#172033;
+      --text:#f8fafc;
+      --muted:#c7d2de;
+      --line:#2a364d;
+      --shadow:0 14px 40px rgba(0,0,0,.32);
+    }
+    html[data-theme="dark"] body{
+      background:
+        radial-gradient(circle at top left, rgba(47,143,131,.18), transparent 24%),
+        radial-gradient(circle at top right, rgba(112,89,217,.18), transparent 24%),
+        linear-gradient(180deg, #0b1220 0%, #111827 100%);
+    }
+    html[data-theme="dark"] body{ color:var(--text); }
+    html[data-theme="dark"] nav,
+    html[data-theme="dark"] .hero,
+    html[data-theme="dark"] .section{ background:transparent; }
+    html[data-theme="dark"] .brand,
+    html[data-theme="dark"] h1,
+    html[data-theme="dark"] h2,
+    html[data-theme="dark"] h3,
+    html[data-theme="dark"] p,
+    html[data-theme="dark"] .sub,
+    html[data-theme="dark"] .muted,
+    html[data-theme="dark"] .nav-links a,
+    html[data-theme="dark"] .micro span,
+    html[data-theme="dark"] .faq-btn,
+    html[data-theme="dark"] .contact-links a{ color:var(--text)!important; }
+    html[data-theme="dark"] .btn-secondary{ background:#1a2437; border-color:#2b3952; color:#f8fafc; }
+    html[data-theme="dark"] .btn-primary{ background:linear-gradient(135deg,#20b486,#157f63); }
+    html[data-theme="dark"] .brand-mark,
+    html[data-theme="dark"] .hero-poster,
+    html[data-theme="dark"] .illustration{ box-shadow:0 16px 42px rgba(0,0,0,.35); }
+
+    html[data-theme="dark"] .pill,
+    html[data-theme="dark"] .highlight,
+    html[data-theme="dark"] .card,
+    html[data-theme="dark"] .price,
+    html[data-theme="dark"] .faq-item,
+    html[data-theme="dark"] .trust .item,
+    html[data-theme="dark"] .topic,
+    html[data-theme="dark"] .col-card,
+    html[data-theme="dark"] .cta-band,
+    html[data-theme="dark"] .social-link,
+    html[data-theme="dark"] .floating-toolbar,
+    html[data-theme="dark"] .hero-overlay,
+    html[data-theme="dark"] .screen,
+    html[data-theme="dark"] .demo-preview,
+    html[data-theme="dark"] .tile,
+    html[data-theme="dark"] .paper-sheet,
+    html[data-theme="dark"] .nav-links a:hover,
+    html[data-theme="dark"] .btn-secondary{
+      background:rgba(23,32,51,.88);
+      border-color:rgba(255,255,255,.08);
+      color:var(--text);
+    }
+    html[data-theme="dark"] .line{ background:#334155; }
+    html[data-theme="dark"] .screen-top{ border-bottom-color:#334155; }
+    html[data-theme="dark"] .brand, html[data-theme="dark"] a{ color:var(--text); }
+    html[data-theme="dark"] .btn-secondary{ background:rgba(23,32,51,.95); }
+    html[data-theme="dark"] .toolbar-btn{ background:#172033; color:var(--text); }
+    html[data-theme="dark"] .toolbar-btn.active{ color:#fff; }
+
+    .brand-mark img, .real-logo, .hero-poster, .mockup, .paper, .social-link, .card, .price, .topic, .btn{
+      transition:transform .28s ease, box-shadow .28s ease, filter .28s ease;
+    }
+    .brand-mark{
+      animation:logoPulse 3.2s ease-in-out infinite;
+      position:relative; overflow:visible;
+    }
+    .brand-mark::after{
+      content:""; position:absolute; inset:-8px; border-radius:20px;
+      background:radial-gradient(circle, rgba(255,230,138,.48), rgba(255,230,138,0) 68%);
+      z-index:-1; animation:haloSpin 5s linear infinite;
+    }
+    .brand-mark img:hover, .real-logo:hover{ transform:scale(1.06) rotate(-1deg); filter:drop-shadow(0 12px 22px rgba(112,89,217,.25)); }
+    .real-logo{ animation:floatHero 4.8s ease-in-out infinite; }
+    .hero-poster{ animation:floatPoster 5.5s ease-in-out infinite; }
+    .hero-poster::after{
+      content:""; position:absolute; inset:-120% -40%;
+      background:linear-gradient(120deg, rgba(255,255,255,0) 28%, rgba(255,255,255,.48) 48%, rgba(255,255,255,0) 68%);
+      transform:rotate(12deg); animation:shineSweep 6s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .card:hover, .price:hover, .topic:hover, .social-link:hover, .mockup:hover, .paper:hover{
+      transform:translateY(-8px) scale(1.02);
+      box-shadow:0 24px 48px rgba(47,143,131,.18), 0 0 0 1px rgba(112,89,217,.08);
+      filter:saturate(1.08);
+    }
+    .btn:hover{ box-shadow:0 20px 38px rgba(47,143,131,.22); }
+    .social-link:hover .social-ico{ transform:rotate(10deg) scale(1.12); }
+    .social-ico{ transition:transform .28s ease; }
+    .card:nth-child(odd), .topic:nth-child(odd){ animation:floatSoft 6s ease-in-out infinite; }
+    .card:nth-child(even), .topic:nth-child(even){ animation:floatSoft 7.2s ease-in-out infinite; }
+    .price.featured{ animation:featuredGlow 2.8s ease-in-out infinite; }
+
+    @keyframes logoPulse{ 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-4px) scale(1.03);} }
+    @keyframes haloSpin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+    @keyframes shineSweep{ 0%,100%{transform:translateX(-140%) rotate(12deg);} 50%{transform:translateX(140%) rotate(12deg);} }
+    @keyframes floatHero{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-9px);} }
+    @keyframes floatPoster{ 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-10px) rotate(.8deg);} }
+    @keyframes floatSoft{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-5px);} }
+    @keyframes featuredGlow{ 0%,100%{box-shadow:0 12px 35px rgba(31,54,61,.08);} 50%{box-shadow:0 24px 56px rgba(47,143,131,.2);} }
+
+    @media (max-width:760px){
+      .floating-toolbar{ top:auto; bottom:16px; right:12px; left:12px; justify-content:center; border-radius:22px; }
+      .toolbar-btn{ flex:1 1 auto; }
+    }
+
+    html[lang="en"] .cover::before{
+      content:"Walter Learns\A Colors";
+    }
+    html[lang="en"] .tile.video-mini::after{
+      content:"Educational video";
+    }
+
+html[data-theme="dark"] .social-ico{
+  background: linear-gradient(135deg, #34d399, #818cf8) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+html[data-theme="dark"] .social-link{
+  background: rgba(23,32,51,.96) !important;
+  border-color: rgba(255,255,255,.10) !important;
+}
+
+html[data-theme="dark"] .step-num{
+  background: linear-gradient(135deg, #fbbf24, #fb7185) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,.28);
+  border: 1px solid rgba(255,255,255,.12);
+}
+  
+</style>
 </head>
 <body>
+
+  <div class="floating-toolbar" aria-label="Controles del sitio">
+    <button type="button" class="toolbar-btn lang-btn active" data-lang="es" id="lang-es" onclick="WAJ_setLang('es')">ES</button>
+    <button type="button" class="toolbar-btn lang-btn" data-lang="en" id="lang-en" onclick="WAJ_setLang('en')">EN</button>
+    <button type="button" class="toolbar-btn" id="themeToggle" aria-label="Activar modo oscuro" onclick="WAJ_toggleTheme()">🌙</button>
+    <a class="toolbar-btn toolbar-link" id="brochureBtn" href="walter-brochure.pdf" target="_blank" rel="noopener">PDF</a>
+  </div>
+
   <header class="hero">
     <div class="container">
       <nav>
@@ -807,6 +970,267 @@
         }
       });
     });
+  </script>
+
+  
+  <script>
+    (function(){
+      const translations = {
+        es: {
+          siteTitle: 'Walter Aprende Jugando',
+          metaDescription: 'Programa educativo musical listo para usar en daycares y preescolares.',
+          themeAriaDark: 'Activar modo oscuro',
+          themeAriaLight: 'Volver a modo claro'
+        },
+        en: {
+          siteTitle: 'Walter Learns Through Play',
+          metaDescription: 'Educational music program ready to use in daycares and preschools.',
+          themeAriaDark: 'Switch to dark mode',
+          themeAriaLight: 'Switch to light mode'
+        }
+      };
+
+      const dictionary = {
+        'Walter Aprende Jugando': 'Walter Learns Through Play',
+        'Qué incluye': 'What’s included',
+        'Demo': 'Demo',
+        'Precios': 'Pricing',
+        'FAQ': 'FAQ',
+        'Programa educativo musical listo para usar': 'Educational music program ready to use',
+        'Programa educativo musical listo para usar en daycares y preescolares': 'Educational music program ready to use in daycares and preschools',
+        'Programa educativo musical listo para usar en daycares y preescolares.': 'Educational music program ready to use in daycares and preschools.',
+        'Cada canción se transforma en una experiencia completa de aula con video educativo, actividad práctica, hoja imprimible y guía para el maestro.': 'Each song becomes a complete classroom experience with an educational video, practical activity, printable sheet, and teacher guide.',
+        'Ver demo gratuita': 'Watch free demo',
+        'Escribir por WhatsApp': 'Message on WhatsApp',
+        'Listo para usar en clase': 'Ready to use in class',
+        'Formato digital e imprimible': 'Digital and printable format',
+        'Actividades breves y guiadas': 'Short guided activities',
+        'Demo visual real del programa': 'Real visual demo of the program',
+        'Música · Videos · Actividades para daycare y preescolar': 'Music · Videos · Activities for daycare and preschool',
+        'Recursos organizados para aplicar sin complicaciones.': 'Organized resources ready to use without complications.',
+        'Digital e imprimible': 'Digital and printable',
+        'Úsalo desde teléfono, tablet, computadora o en hojas impresas.': 'Use it from your phone, tablet, computer, or with printed sheets.',
+        'Actividades breves': 'Short activities',
+        'Experiencias educativas pensadas para 10 a 20 minutos.': 'Educational experiences designed for 10 to 20 minutes.',
+        'Pensado para preescolar': 'Designed for preschool',
+        'Material enfocado en aprendizaje temprano y participación activa.': 'Material focused on early learning and active participation.',
+        'Qué incluye cada kit': 'What each kit includes',
+        'Todo lo que necesitas en un solo recurso educativo': 'Everything you need in one educational resource',
+        'Canción en MP3': 'MP3 song',
+        'Para aprender a través de la música.': 'To learn through music.',
+        'Video educativo corto': 'Short educational video',
+        'Apoyo visual para reforzar atención y comprensión.': 'Visual support to reinforce attention and understanding.',
+        'Actividad educativa': 'Educational activity',
+        'Propuesta práctica para participar y aprender jugando.': 'A practical activity to participate and learn through play.',
+        'Hoja imprimible': 'Printable sheet',
+        'Lista para colorear, trabajar y reforzar el tema.': 'Ready to color, work with, and reinforce the topic.',
+        'Guía para el maestro': 'Teacher guide',
+        'Con orientación clara para aplicar el recurso en clase.': 'With clear guidance to apply the resource in class.',
+        'El problema': 'The problem',
+        'Menos tiempo preparando. Más tiempo enseñando.': 'Less time preparing. More time teaching.',
+        'Muchos docentes y centros infantiles necesitan recursos que ya vengan estructurados, claros y listos para aplicar.': 'Many teachers and childcare centers need resources that already come structured, clear, and ready to use.',
+        'Ahorra tiempo de planificación': 'Saves planning time',
+        'Reduce el esfuerzo de crear materiales desde cero': 'Reduces the effort of creating materials from scratch',
+        'Mantiene el aprendizaje activo y visual': 'Keeps learning active and visual',
+        'Facilita una experiencia coherente en aula': 'Creates a consistent classroom experience',
+        'La solución': 'The solution',
+        'Convierte canciones en experiencias completas de aula con música, video, actividad imprimible y guía docente.': 'Turns songs into complete classroom experiences with music, video, printable activity, and teacher guidance.',
+        'Redes sociales': 'Social media',
+        'Conoce más de Walter Aprende Jugando en nuestras redes': 'Learn more about Walter Aprende Jugando on our social media',
+        'YouTube': 'YouTube',
+        'Facebook': 'Facebook',
+        'Instagram': 'Instagram',
+        'TikTok': 'TikTok',
+        'Cómo funciona': 'How it works',
+        'Una dinámica sencilla y fácil de aplicar': 'A simple and easy-to-use dynamic',
+        'Escuchan la canción': 'Listen to the song',
+        'El tema se introduce de forma musical y atractiva.': 'The topic is introduced in a musical and engaging way.',
+        'Ven el video corto': 'Watch the short video',
+        'La parte visual refuerza el mensaje y mantiene la atención.': 'The visual part reinforces the message and keeps attention.',
+        'Realizan la actividad': 'Do the activity',
+        'Colorean, identifican o participan según el recurso.': 'Color, identify, or participate according to the resource.',
+        'El maestro guía y refuerza': 'The teacher guides and reinforces',
+        'Se conversa, se repasa y se consolida el aprendizaje.': 'The learning is discussed, reviewed, and reinforced.',
+        'Demo principal': 'Main demo',
+        'Descubre cómo una canción puede convertirse en un recurso educativo completo': 'Discover how a song can become a complete educational resource',
+        'Descubre cómo una canción puede transformarse en una experiencia completa de aprendizaje para tu daycare, preescolar o proyecto educativo.': 'Discover how one song can become a complete learning experience for your daycare, preschool, or educational project.',
+        'Demo destacada:': 'Featured demo:',
+        'Walter Aprende los Colores': 'Walter Learns Colors',
+        '. Un kit diseñado para apoyar a docentes y padres en la enseñanza de los colores en edad preescolar.': '. A kit designed to support teachers and parents in teaching colors at preschool age.',
+        'Incluye canción principal': 'Includes main song',
+        'Introducción musical del tema.': 'Musical introduction to the topic.',
+        'Actividad sencilla': 'Simple activity',
+        'Participación guiada y reconocimiento visual.': 'Guided participation and visual recognition.',
+        'Guía del maestro': 'Teacher guide',
+        'Objetivo, edad y duración claras.': 'Clear objective, age, and duration.',
+        'Refuerzo práctico del aprendizaje.': 'Practical reinforcement of learning.',
+        'Ver video demo': 'Watch demo video',
+        'Solicitar información': 'Request information',
+        'Objetivo': 'Goal',
+        'Reconocer colores': 'Recognize colors',
+        'Edad': 'Age',
+        '3 a 6 años': '3 to 6 years',
+        'Duración': 'Duration',
+        '15 minutos aprox.': 'Approx. 15 minutes',
+        'Beneficios': 'Benefits',
+        'Mucho más que entretenimiento infantil': 'Much more than children’s entertainment',
+        'Enseña mientras entretiene': 'Teaches while entertaining',
+        'La música se convierte en herramienta de aprendizaje.': 'Music becomes a learning tool.',
+        'Ahorra tiempo al docente': 'Saves teachers time',
+        'Todo viene estructurado y listo para aplicar.': 'Everything comes structured and ready to use.',
+        'Crea continuidad visual': 'Creates visual continuity',
+        'Walter y Saltarina acompañan toda la experiencia.': 'Walter and Saltarina accompany the whole experience.',
+        'Puede crecer por temas': 'Can grow by topics',
+        'Colores, números, formas, saludos, higiene y más.': 'Colors, numbers, shapes, greetings, hygiene, and more.',
+        'Sirve en aula y hogar': 'Works in class and at home',
+        'Útil para centros, maestras y familias.': 'Useful for centers, teachers, and families.',
+        'Temas del programa': 'Program topics',
+        'Una propuesta que puede crecer por unidades educativas': 'A proposal that can grow by educational units',
+        'Walter aprende los colores': 'Walter learns colors',
+        'Walter aprende los números': 'Walter learns numbers',
+        'Walter descubre las formas': 'Walter discovers shapes',
+        'Walter aprende a saludar': 'Walter learns to greet',
+        'Walter se lava las manos': 'Walter washes his hands',
+        'Walter va a la escuela': 'Walter goes to school',
+        'Walter y los animales': 'Walter and the animals',
+        'Walter y las estaciones': 'Walter and the seasons',
+        'Walter se prepara para dormir': 'Walter gets ready for bed',
+        'Opciones claras para empezar': 'Clear options to get started',
+        'Sin costo': 'No cost',
+        'Demo gratuita': 'Free demo',
+        'Gratis': 'Free',
+        'Conoce una muestra real del programa.': 'See a real sample of the program.',
+        'Ver demo': 'See demo',
+        'Kit Educativo · 1 aula': 'Educational kit · 1 classroom',
+        'Pago único para comenzar con un recurso completo.': 'One-time payment to start with a complete resource.',
+        'Solicitar': 'Request',
+        'Recomendado': 'Recommended',
+        'Licencia anual': 'Annual license',
+        '/año': '/year',
+        'La opción más conveniente para implementar el programa con continuidad.': 'The most convenient option to implement the program consistently.',
+        'Elegir plan': 'Choose plan',
+        'Más opciones': 'More options',
+        'Licencia mensual': 'Monthly license',
+        'Licencia multi-aula': 'Multi-classroom license',
+        'Permitido': 'Allowed',
+        'Uso claro y transparente': 'Clear and transparent use',
+        'Uso dentro del aula': 'Use inside the classroom',
+        'Reproducción de canciones y videos': 'Playback of songs and videos',
+        'Impresión de materiales': 'Printing of materials',
+        'No permitido': 'Not allowed',
+        'Protección del contenido': 'Content protection',
+        'Revender el contenido': 'Reselling the content',
+        'Compartirlo con otros centros': 'Sharing it with other centers',
+        'Publicarlo como propio': 'Publishing it as your own',
+        'La licencia aplica según el plan contratado.': 'The license applies according to the selected plan.',
+        'Entrega': 'Delivery',
+        'Todo organizado para facilitar su uso': 'Everything organized to make it easy to use',
+        'Memoria USB': 'USB drive',
+        'Contenido organizado y listo para usar.': 'Organized content ready to use.',
+        'PDF profesional': 'Professional PDF',
+        'Presentación clara y uniforme.': 'Clear and consistent presentation.',
+        'Carpetas por canción': 'Folders by song',
+        'Cada pieza bien clasificada.': 'Each piece properly organized.',
+        'Acceso digital': 'Digital access',
+        'Opcional por Drive o código QR.': 'Optional via Drive or QR code.',
+        'Preguntas frecuentes': 'Frequently asked questions',
+        'Todo lo importante, claro y simple': 'Everything important, clear, and simple',
+        '¿Qué incluye cada kit?': 'What does each kit include?',
+        'Incluye canción, video, actividad, hoja imprimible y guía para el maestro.': 'It includes a song, video, activity, printable sheet, and teacher guide.',
+        '¿La demo es gratis?': 'Is the demo free?',
+        'Sí. Existe una opción de demostración gratuita para conocer el programa antes de elegir un plan.': 'Yes. There is a free demo option to learn about the program before choosing a plan.',
+        '¿Puedo usarlo en más de un aula?': 'Can I use it in more than one classroom?',
+        'Sí, mediante la modalidad de licencia multi-aula.': 'Yes, through the multi-classroom license option.',
+        '¿Se puede imprimir?': 'Can it be printed?',
+        'Sí. Las hojas y actividades están pensadas para imprimirse y utilizarse en clase.': 'Yes. The sheets and activities are designed to be printed and used in class.',
+        '¿Qué edades cubre?': 'What ages does it cover?',
+        'La demo desarrollada de colores está pensada para niñas y niños de 3 a 6 años.': 'The color demo is designed for girls and boys aged 3 to 6.',
+        'Cierre': 'Closing',
+        'No es solo música. Es un programa educativo listo para el aula.': 'It is not just music. It is an educational program ready for the classroom.',
+        'Walter Aprende Jugando · Landing conceptual lista para adaptar y publicar en Netlify.': 'Walter Learns Through Play · Concept landing ready to adapt and publish on Netlify.'
+      };
+
+      const textNodes = [];
+      function collectTextNodes(){
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+          acceptNode(node){
+            const value = node.nodeValue;
+            if(!value || !value.trim()) return NodeFilter.FILTER_REJECT;
+            const parent = node.parentElement;
+            if(!parent || ['SCRIPT','STYLE'].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
+            if(parent.closest('.floating-toolbar')) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+        while(walker.nextNode()){
+          const node = walker.currentNode;
+          textNodes.push({
+            node,
+            original: node.nodeValue,
+            trimmed: node.nodeValue.trim(),
+            leading: (node.nodeValue.match(/^\s*/) || [''])[0],
+            trailing: (node.nodeValue.match(/\s*$/) || [''])[0]
+          });
+        }
+      }
+
+      function safeSave(key, value){
+        try { localStorage.setItem(key, value); } catch(e) {}
+      }
+      function safeLoad(key, fallback){
+        try { return localStorage.getItem(key) || fallback; } catch(e) { return fallback; }
+      }
+
+      window.WAJ_setLang = function(lang){
+        const useEnglish = lang === 'en';
+        textNodes.forEach(item => {
+          const translated = useEnglish ? (dictionary[item.trimmed] || item.trimmed) : item.original.trim();
+          item.node.nodeValue = item.leading + translated + item.trailing;
+        });
+        document.documentElement.lang = useEnglish ? 'en' : 'es';
+        document.title = useEnglish ? translations.en.siteTitle : translations.es.siteTitle;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if(metaDesc){
+          metaDesc.setAttribute('content', useEnglish ? translations.en.metaDescription : translations.es.metaDescription);
+        }
+        const brochureBtn = document.getElementById('brochureBtn');
+        if(brochureBtn){ brochureBtn.textContent = 'PDF'; }
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+        const toggle = document.getElementById('themeToggle');
+        if(toggle){
+          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          toggle.setAttribute('aria-label', isDark ? translations[useEnglish ? 'en' : 'es'].themeAriaLight : translations[useEnglish ? 'en' : 'es'].themeAriaDark);
+        }
+        safeSave('waj-lang', lang);
+      };
+
+      window.WAJ_setTheme = function(theme){
+        const isDark = theme === 'dark';
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        document.body.classList.toggle('waj-dark', isDark);
+        const toggle = document.getElementById('themeToggle');
+        const lang = document.documentElement.lang === 'en' ? 'en' : 'es';
+        if(toggle){
+          toggle.textContent = isDark ? '☀️' : '🌙';
+          toggle.classList.toggle('active', isDark);
+          toggle.setAttribute('aria-label', isDark ? translations[lang].themeAriaLight : translations[lang].themeAriaDark);
+        }
+        safeSave('waj-theme', isDark ? 'dark' : 'light');
+      };
+
+      window.WAJ_toggleTheme = function(){
+        const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        window.WAJ_setTheme(current === 'dark' ? 'light' : 'dark');
+      };
+
+      document.addEventListener('DOMContentLoaded', function(){
+        collectTextNodes();
+        const savedLang = safeLoad('waj-lang', 'es');
+        const savedTheme = safeLoad('waj-theme', 'light');
+        window.WAJ_setLang(savedLang);
+        window.WAJ_setTheme(savedTheme);
+      });
+    })();
   </script>
 </body>
 </html>
