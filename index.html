@@ -395,17 +395,34 @@
 
 
 .socials{
-  display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin-top:18px;
+  display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:20px;
 }
 .social-link{
-  display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:999px;
-  text-decoration:none; color:var(--text); background:#fff; border:1px solid rgba(255,255,255,.95);
-  box-shadow:var(--shadow); font-weight:700;
+  display:flex; align-items:center; gap:14px; padding:16px 20px; border-radius:20px;
+  text-decoration:none; color:#fff; font-weight:800; font-size:1rem;
+  box-shadow:0 8px 24px rgba(0,0,0,.13);
+  transition:transform .2s ease, box-shadow .2s ease;
+  position:relative; overflow:hidden;
 }
+.social-link::after{
+  content:""; position:absolute; inset:0;
+  background:rgba(255,255,255,.0); transition:background .2s;
+}
+.social-link:hover{ transform:translateY(-3px) scale(1.02); box-shadow:0 14px 32px rgba(0,0,0,.18); }
+.social-link:hover::after{ background:rgba(255,255,255,.08); }
+.social-link.yt { background:linear-gradient(135deg,#ff0000,#cc0000); }
+.social-link.fb { background:linear-gradient(135deg,#1877f2,#0d5dbf); }
+.social-link.ig { background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4); }
+.social-link.tt { background:linear-gradient(135deg,#010101,#2d2d2d); }
 .social-ico{
-  width:34px; height:34px; border-radius:999px; display:grid; place-items:center; font-size:1rem;
-  background:linear-gradient(135deg,var(--mint),var(--lav));
+  width:42px; height:42px; border-radius:14px; display:grid; place-items:center; flex-shrink:0;
+  background:rgba(255,255,255,.22); backdrop-filter:blur(4px);
+  border:1px solid rgba(255,255,255,.3);
 }
+.social-ico svg{ display:block; filter:drop-shadow(0 1px 2px rgba(0,0,0,.15)); }
+.social-label{ display:flex; flex-direction:column; }
+.social-label strong{ font-size:1rem; line-height:1.1; }
+.social-label span{ font-size:.78rem; font-weight:500; opacity:.85; margin-top:2px; }
 
 
 .floating-toolbar{
@@ -541,7 +558,7 @@ html[data-theme="dark"] .toolbar-btn.active{ color:#fff; }
   position:fixed; bottom:28px; right:24px; z-index:10000;
   width:62px; height:62px; border-radius:50%;
   background:linear-gradient(135deg,var(--accent),var(--accent-2));
-  border:none; cursor:pointer; font-size:1.75rem;
+  border:none; cursor:pointer;
   display:flex; align-items:center; justify-content:center;
   box-shadow:0 8px 28px rgba(47,143,131,.5);
   animation:fabPulse 3s ease-in-out infinite;
@@ -692,16 +709,11 @@ html[lang="en"] .tile.video-mini::after{
 
 
 html[data-theme="dark"] .social-ico{
-background: linear-gradient(135deg, #34d399, #818cf8) !important;
-color: #ffffff !important;
-box-shadow: 0 10px 24px rgba(0,0,0,.35);
-border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.18) !important;
+  border-color: rgba(255,255,255,.25) !important;
 }
 
-html[data-theme="dark"] .social-link{
-background: rgba(23,32,51,.96) !important;
-border-color: rgba(255,255,255,.10) !important;
-}
+/* dark mode does NOT override .social-link backgrounds — keep brand colors */
 
 html[data-theme="dark"] .step-num{
 background: linear-gradient(135deg, #fbbf24, #fb7185) !important;
@@ -711,6 +723,16 @@ border: 1px solid rgba(255,255,255,.12);
 }
 
 /* ===== SHOP SECTION PREMIUM ===== */
+.shop-card-icon{
+  width:52px; height:52px; border-radius:16px; margin-bottom:14px;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg, rgba(255,255,255,.9), rgba(255,255,255,.6));
+  border:1px solid rgba(255,255,255,.95); box-shadow:var(--shadow);
+  color:var(--accent);
+}
+.shop-card.story-1 .shop-card-icon{ color:#5b8dee; }
+.shop-card.story-2 .shop-card-icon{ color:#e2587a; }
+.social-ico svg{ display:block; }
 .shop-section{
 padding:84px 0;
 position:relative;
@@ -1097,6 +1119,7 @@ html[data-theme="dark"] .sub{
 </div>
 <div class="shop-grid">
 <div class="shop-card manual">
+<div class="shop-card-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
 <div class="shop-badge" data-en="Activities" data-es="Actividades">
       Actividades
     </div>
@@ -1128,6 +1151,7 @@ html[data-theme="dark"] .sub{
 </div>
 </div>
 <div class="shop-card story-1">
+<div class="shop-card-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8.5 14.5s1.5 2 3.5 2 3.5-2 3.5-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
 <div class="shop-badge" data-en="Story" data-es="Cuento">
       Cuento
     </div>
@@ -1159,6 +1183,7 @@ html[data-theme="dark"] .sub{
 </div>
 </div>
 <div class="shop-card story-2">
+<div class="shop-card-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
 <div class="shop-badge" data-en="Story" data-es="Cuento">
       Cuento
     </div>
@@ -1203,22 +1228,22 @@ html[data-theme="dark"] .sub{
 <section class="section">
 <div class="container trust">
 <div class="item">
-<div class="icon">✓</div>
+<div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
 <h3><span data-waj-en="Ready to use in class" data-waj-es="Listo para usar en clase">Listo para usar en clase</span></h3>
 <p><span data-waj-en="Organized resources ready to use without complications." data-waj-es="Recursos organizados para aplicar sin complicaciones.">Recursos organizados para aplicar sin complicaciones.</span></p>
 </div>
 <div class="item">
-<div class="icon">🖨️</div>
+<div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>
 <h3><span data-waj-en="Digital and printable" data-waj-es="Digital e imprimible">Digital e imprimible</span></h3>
 <p><span data-waj-en="Use it from your phone, tablet, computer, or with printed sheets." data-waj-es="Úsalo desde teléfono, tablet, computadora o en hojas impresas.">Úsalo desde teléfono, tablet, computadora o en hojas impresas.</span></p>
 </div>
 <div class="item">
-<div class="icon">⏱️</div>
+<div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
 <h3><span data-waj-en="Short activities" data-waj-es="Actividades breves">Actividades breves</span></h3>
 <p><span data-waj-en="Educational experiences designed for 10 to 20 minutes." data-waj-es="Experiencias educativas pensadas para 10 a 20 minutos.">Experiencias educativas pensadas para 10 a 20 minutos.</span></p>
 </div>
 <div class="item">
-<div class="icon">🌱</div>
+<div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
 <h3><span data-waj-en="Designed for preschool" data-waj-es="Pensado para preescolar">Pensado para preescolar</span></h3>
 <p><span data-waj-en="Material focused on early learning and active participation." data-waj-es="Material enfocado en aprendizaje temprano y participación activa.">Material enfocado en aprendizaje temprano y participación activa.</span></p>
 </div>
@@ -1303,17 +1328,21 @@ html[data-theme="dark"] .sub{
 <div class="kicker"><span data-waj-en="Social media" data-waj-es="Redes sociales">Redes sociales</span></div>
 <h3 style="font-size:1.5rem; margin-bottom:8px;"><span data-waj-en="Learn more about Walter Aprende Jugando on our social media" data-waj-es="Conoce más de Walter Aprende Jugando en nuestras redes">Conoce más de Walter Aprende Jugando en nuestras redes</span></h3>
 <div class="socials">
-<a class="social-link" href="https://www.youtube.com/@Wil-o1f" rel="noopener" target="_blank">
-<span class="social-ico">▶</span><span><span data-waj-en="YouTube" data-waj-es="YouTube">YouTube</span></span>
+<a class="social-link yt" href="https://www.youtube.com/@Wil-o1f" rel="noopener" target="_blank">
+  <span class="social-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg></span>
+  <span class="social-label"><strong><span data-waj-en="YouTube" data-waj-es="YouTube">YouTube</span></strong><span><span data-waj-en="Watch our videos" data-waj-es="Mira nuestros videos">Mira nuestros videos</span></span></span>
 </a>
-<a class="social-link" href="https://www.facebook.com/william.perezmederos.5/" rel="noopener" target="_blank">
-<span class="social-ico">f</span><span><span data-waj-en="Facebook" data-waj-es="Facebook">Facebook</span></span>
+<a class="social-link fb" href="https://www.facebook.com/william.perezmederos.5/" rel="noopener" target="_blank">
+  <span class="social-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg></span>
+  <span class="social-label"><strong><span data-waj-en="Facebook" data-waj-es="Facebook">Facebook</span></strong><span><span data-waj-en="Join our community" data-waj-es="Únete a la comunidad">Únete a la comunidad</span></span></span>
 </a>
-<a class="social-link" href="https://www.instagram.com/william.perezmederos.5/" rel="noopener" target="_blank">
-<span class="social-ico">◎</span><span><span data-waj-en="Instagram" data-waj-es="Instagram">Instagram</span></span>
+<a class="social-link ig" href="https://www.instagram.com/william.perezmederos.5/" rel="noopener" target="_blank">
+  <span class="social-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12c0-3.2.01-3.58.07-4.85C2.38 3.86 3.9 2.31 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.7.07 7.05.01 8.33 0 8.74 0 12c0 3.26.01 3.67.07 4.95.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24c3.26 0 3.67-.01 4.95-.07 4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95 0-3.26-.01-3.67-.07-4.95-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32A6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg></span>
+  <span class="social-label"><strong><span data-waj-en="Instagram" data-waj-es="Instagram">Instagram</span></strong><span><span data-waj-en="See photos and activities" data-waj-es="Fotos y actividades">Fotos y actividades</span></span></span>
 </a>
-<a class="social-link" href="https://www.tiktok.com/@williamperezmeder" rel="noopener" target="_blank">
-<span class="social-ico">♪</span><span><span data-waj-en="TikTok" data-waj-es="TikTok">TikTok</span></span>
+<a class="social-link tt" href="https://www.tiktok.com/@williamperezmeder" rel="noopener" target="_blank">
+  <span class="social-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg></span>
+  <span class="social-label"><strong><span data-waj-en="TikTok" data-waj-es="TikTok">TikTok</span></strong><span><span data-waj-en="Short educational videos" data-waj-es="Videos educativos cortos">Videos educativos cortos</span></span></span>
 </a>
 </div>
 </div>
@@ -1888,13 +1917,13 @@ html[data-theme="dark"] .sub{
   </script>
 <!-- ===== WALTER AI CHAT FAB ===== -->
 <button aria-label="Hablar con el asistente Walter" class="chat-fab" id="chatFab" onclick="WAJ_toggleChat()">
-  🤖
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
   <div class="chat-fab-badge" id="chatBadge">1</div>
 </button>
 <!-- ===== WALTER AI CHAT WINDOW ===== -->
 <div aria-label="Asistente Walter AI" aria-modal="true" class="chat-window" id="chatWindow" role="dialog">
 <div class="chat-header">
-<div class="chat-avatar">🎵</div>
+<div class="chat-avatar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
 <div class="chat-header-info">
 <strong id="chatTitle">Asistente Walter</strong>
 <span><span class="online-dot"></span><span id="chatStatus">En línea · Responde al instante</span></span>
@@ -1903,7 +1932,7 @@ html[data-theme="dark"] .sub{
 </div>
 <div aria-live="polite" class="chat-messages" id="chatMessages">
 <div class="msg bot">
-<div class="msg-av">🎵</div>
+<div class="msg-av"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
 <div>
 <div class="msg-bubble" id="chatWelcome">¡Hola! 👋 Soy el asistente de <strong><span data-waj-en="Walter Learns Through Play" data-waj-es="Walter Aprende Jugando">Walter Aprende Jugando</span></strong>. Estoy aquí para ayudarte a conocer el programa educativo musical para tu daycare o preescolar. ¿En qué puedo ayudarte?</div>
 <div class="msg-time" id="chatWelcomeTime"></div>
@@ -2040,7 +2069,7 @@ html[data-theme="dark"] .sub{
         const en=getLang()==='en';
         msgs.innerHTML=`
           <div class="msg bot">
-            <div class="msg-av">🎵</div>
+            <div class="msg-av"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
             <div>
               <div class="msg-bubble" id="chatWelcome">${en
                 ?"Hi! 👋 I'm the <strong>Walter Aprende Jugando</strong> assistant. How can I help you today?"
@@ -2064,10 +2093,10 @@ html[data-theme="dark"] .sub{
       .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
       .replace(/\[(.*?)\]\((https?:\/\/[^\)]+)\)/g,'<a href="$2" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;font-weight:700">$1</a>')
       .replace(/\n/g,'<br/>');
-    d.innerHTML=`<div class="msg-av">${role==='bot'?'🎵':'👤'}</div><div><div class="msg-bubble">${html}</div><div class="msg-time">${now()}</div></div>`;
+    d.innerHTML=`<div class="msg-av">${role==='bot'?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>'}</div><div><div class="msg-bubble">${html}</div><div class="msg-time">${now()}</div></div>`;
     msgs.appendChild(d); scrollDown();
   }
-  function showTyping(){ const msgs=document.getElementById('chatMessages'); const d=document.createElement('div'); d.className='msg bot'; d.id='wajTyping'; d.innerHTML=`<div class="msg-av">🎵</div><div class="typing-bubble"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>`; msgs.appendChild(d); scrollDown(); }
+  function showTyping(){ const msgs=document.getElementById('chatMessages'); const d=document.createElement('div'); d.className='msg bot'; d.id='wajTyping'; d.innerHTML=`<div class="msg-av"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><div class="typing-bubble"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>`; msgs.appendChild(d); scrollDown(); }
   function hideTyping(){ document.getElementById('wajTyping')?.remove(); }
 
   async function doSend(text){
@@ -2089,19 +2118,7 @@ html[data-theme="dark"] .sub{
   window.WAJ_handleKey=function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); WAJ_send(); } };
   window.WAJ_autoResize=function(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,90)+'px'; };
 
-  /* sync with existing WAJ lang system */
-  const _orig=window.WAJ_setLang;
-  window.WAJ_setLang=function(lang){
-    if(_orig) _orig(lang);
-    const en=lang==='en';
-    const s=(id,val)=>{ const el=document.getElementById(id); if(el) el.innerHTML=val; };
-    const t=(id,val)=>{ const el=document.getElementById(id); if(el) el.textContent=val; };
-    t('chatTitle',    en?'Walter Assistant':'Asistente Walter');
-    t('chatStatus',   en?'Online · Instant response':'En línea · Responde al instante');
-    s('chatWelcome',  en?"Hi! 👋 I'm the <strong>Walter Aprende Jugando</strong> assistant. How can I help you today?":"¡Hola! 👋 Soy el asistente de <strong>Walter Aprende Jugando</strong>. ¿En qué puedo ayudarte?");
-    t('chatDisclaimer',en?'AI assistant · May make mistakes':'Asistente con IA · Puede cometer errores');
-    const inp=document.getElementById('chatInput'); if(inp) inp.placeholder=en?'Type your question here...':'Escribe tu pregunta aquí...';
-  };
+  /* WAJ_setLang is handled by the waj-final-idioma-tema-robusto script below */
 })();
 </script>
 
