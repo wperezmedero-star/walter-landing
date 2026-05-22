@@ -487,7 +487,6 @@ html[data-theme="dark"] .trust .item,
 html[data-theme="dark"] .topic,
 html[data-theme="dark"] .col-card,
 html[data-theme="dark"] .cta-band,
-html[data-theme="dark"] .social-link,
 html[data-theme="dark"] .floating-toolbar,
 html[data-theme="dark"] .hero-overlay,
 html[data-theme="dark"] .screen,
@@ -714,6 +713,11 @@ html[data-theme="dark"] .social-ico{
 }
 
 /* dark mode does NOT override .social-link backgrounds — keep brand colors */
+html[data-theme="dark"] .social-link.yt { background:linear-gradient(135deg,#ff0000,#cc0000) !important; color:#fff !important; }
+html[data-theme="dark"] .social-link.fb { background:linear-gradient(135deg,#1877f2,#0d5dbf) !important; color:#fff !important; }
+html[data-theme="dark"] .social-link.ig { background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4) !important; color:#fff !important; }
+html[data-theme="dark"] .social-link.tt { background:linear-gradient(135deg,#2d2d2d,#010101) !important; color:#fff !important; }
+html[data-theme="dark"] .social-link * { color:#fff !important; }
 
 html[data-theme="dark"] .step-num{
 background: linear-gradient(135deg, #fbbf24, #fb7185) !important;
@@ -957,15 +961,36 @@ grid-template-columns:1fr;
 
 
 /* ===== FIX VISIBILIDAD BLOQUES / FONDOS SÓLIDOS ===== */
-.pill,.glass,.highlight,.card,.price,.faq-item,.trust .item,.topic,.col-card,.cta-band,.social-link,.floating-toolbar,.hero-overlay,.mockup,.paper{
+.pill,.glass,.highlight,.card,.price,.faq-item,.trust .item,.topic,.col-card,.cta-band,.floating-toolbar,.hero-overlay,.mockup,.paper{
   background:rgba(255,255,255,.94) !important;
   border-color:rgba(231,236,239,.95) !important;
 }
-html[data-theme="dark"] .pill,html[data-theme="dark"] .glass,html[data-theme="dark"] .highlight,html[data-theme="dark"] .card,html[data-theme="dark"] .price,html[data-theme="dark"] .faq-item,html[data-theme="dark"] .trust .item,html[data-theme="dark"] .topic,html[data-theme="dark"] .col-card,html[data-theme="dark"] .cta-band,html[data-theme="dark"] .social-link,html[data-theme="dark"] .floating-toolbar,html[data-theme="dark"] .hero-overlay,html[data-theme="dark"] .mockup,html[data-theme="dark"] .paper{
+html[data-theme="dark"] .pill,html[data-theme="dark"] .glass,html[data-theme="dark"] .highlight,html[data-theme="dark"] .card,html[data-theme="dark"] .price,html[data-theme="dark"] .faq-item,html[data-theme="dark"] .trust .item,html[data-theme="dark"] .topic,html[data-theme="dark"] .col-card,html[data-theme="dark"] .cta-band,html[data-theme="dark"] .floating-toolbar,html[data-theme="dark"] .hero-overlay,html[data-theme="dark"] .mockup,html[data-theme="dark"] .paper{
   background:rgba(23,32,51,.96) !important;
   border-color:rgba(255,255,255,.12) !important;
 }
 html[data-theme="dark"] .sub, html[data-theme="dark"] .muted, html[data-theme="dark"] .card p, html[data-theme="dark"] .item p, html[data-theme="dark"] .price p, html[data-theme="dark"] .faq-content{color:#d7e1ea !important;}
+
+/* Trust cards en modo oscuro */
+html[data-theme="dark"] .trust .item {
+  background: rgba(30,42,68,.95) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  box-shadow: 0 12px 32px rgba(0,0,0,.35) !important;
+}
+html[data-theme="dark"] .trust .item h3 {
+  color: #f0f8f5 !important;
+}
+html[data-theme="dark"] .trust .item p {
+  color: #94a3b8 !important;
+}
+html[data-theme="dark"] .item .icon {
+  background: linear-gradient(135deg, rgba(47,143,131,.5), rgba(112,89,217,.4)) !important;
+  border: 1px solid rgba(255,255,255,.18) !important;
+  color: #a7f3e4 !important;
+}
+html[data-theme="dark"] .item .icon svg {
+  stroke: #a7f3e4 !important;
+}
 html[data-theme="dark"] .step-num{background:linear-gradient(135deg,#fbbf24,#fb7185) !important;color:#fff !important;}
 html[data-theme="dark"] .social-ico{background:linear-gradient(135deg,#34d399,#818cf8) !important;color:#fff !important;}
 
@@ -1006,7 +1031,6 @@ html[data-theme="dark"] .toolbar-btn.active{
 }
 
 html[data-theme="dark"] .btn-secondary,
-html[data-theme="dark"] .social-link,
 html[data-theme="dark"] .card,
 html[data-theme="dark"] .topic,
 html[data-theme="dark"] .price,
@@ -1022,7 +1046,6 @@ html[data-theme="dark"] .shop-card{
 }
 
 html[data-theme="dark"] .btn-secondary *,
-html[data-theme="dark"] .social-link *,
 html[data-theme="dark"] .card *,
 html[data-theme="dark"] .topic *,
 html[data-theme="dark"] .price *,
