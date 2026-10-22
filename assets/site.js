@@ -12,10 +12,33 @@
       els.forEach(function(e){ e.innerHTML = l === 'en' ? e.dataset.en : e.dataset.es; });
       root.lang = l; bes.classList.toggle('on', l === 'es'); ben.classList.toggle('on', l === 'en');
       try { localStorage.setItem('walter-lang', l); } catch(e) {}
+      document.dispatchEvent(new Event('walter:languagechange'));
     };
     bes.onclick = function(){ set('es'); }; ben.onclick = function(){ set('en'); };
     var l = 'es'; try { l = localStorage.getItem('walter-lang') || 'es'; } catch(e) {}
     if (l === 'en') set('en');
+  }
+
+  // ---- Accessible navigation for small screens
+  var menuToggle = document.querySelector('.nav-toggle'), menuNav = document.querySelector('.nav');
+  if (menuToggle && menuNav) {
+    var menuText = menuToggle.querySelector('.nav-toggle-text');
+    var menuIcon = menuToggle.querySelector('.nav-toggle-icon');
+    var paintMenu = function(open){
+      var en = root.lang === 'en';
+      menuToggle.setAttribute('aria-expanded', String(open));
+      menuToggle.setAttribute('aria-label', open ? (en ? 'Close menu' : 'Cerrar menú') : (en ? 'Open menu' : 'Abrir menú'));
+      if (menuText) menuText.textContent = open ? (en ? 'Close' : 'Cerrar') : (en ? 'Menu' : 'Menú');
+      if (menuIcon) menuIcon.textContent = open ? '×' : '☰';
+    };
+    var setMenu = function(open){ menuNav.classList.toggle('open', open); paintMenu(open); };
+    paintMenu(false);
+    menuToggle.addEventListener('click', function(){ setMenu(!menuNav.classList.contains('open')); });
+    [].forEach.call(menuNav.querySelectorAll('ul a'), function(a){ a.addEventListener('click', function(){ setMenu(false); }); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setMenu(false); });
+    document.addEventListener('click', function(e){ if (!menuNav.contains(e.target)) setMenu(false); });
+    window.addEventListener('resize', function(){ if (window.innerWidth > 900) setMenu(false); });
+    document.addEventListener('walter:languagechange', function(){ paintMenu(menuNav.classList.contains('open')); });
   }
 
   // ---- Saltarina perches on each section heading
