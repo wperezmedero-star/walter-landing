@@ -93,3 +93,96 @@
     }
   }
 })();
+
+
+
+// ===== La casita de Walter: introducción animada, accesible y opcional =====
+(function(){
+  function setupStorybook(){
+    if (!document.querySelector('.hero .stage') || document.getElementById('walter-storybook-intro')) return;
+    var storageKey = 'walter-storybook-intro-v1';
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var replayRequested = /(?:^|[?&])intro=1(?:&|$)/.test(window.location.search);
+    var hasVisited = false;
+    try { hasVisited = localStorage.getItem(storageKey) === 'seen'; } catch (e) {}
+    var intro = document.createElement('div');
+    intro.id = 'walter-storybook-intro';
+    intro.className = 'storybook-intro';
+    intro.setAttribute('role','dialog');
+    intro.setAttribute('aria-modal','true');
+    intro.setAttribute('aria-label','Bienvenida al mundo de Walter');
+    intro.hidden = true;
+    intro.innerHTML =
+      '<div class="storybook-scene" aria-hidden="true">' +
+        '<div class="storybook-sun"></div><div class="storybook-cloud c1"></div><div class="storybook-cloud c2"></div>' +
+        '<div class="storybook-hill"></div><div class="storybook-path"></div>' +
+        '<div class="storybook-house">' +
+          '<div class="storybook-chimney"></div><div class="storybook-wall">' +
+            '<div class="storybook-window left"></div><div class="storybook-window right"></div>' +
+            '<div class="storybook-planter left"></div><div class="storybook-planter right"></div>' +
+            '<div class="storybook-doorway"><div class="storybook-portal"><img src="assets/logo.webp" alt=""></div><div class="storybook-door"></div></div>' +
+          '</div><div class="storybook-roof"></div>' +
+        '</div>' +
+        '<span class="storybook-flower f1">✿</span><span class="storybook-flower f2">✿</span><span class="storybook-flower f3">✿</span><span class="storybook-flower f4">✿</span>' +
+        '<img class="storybook-walter" src="assets/walter.webp" alt="">' +
+        '<img class="storybook-saltarina" src="assets/saltarina.webp" alt="">' +
+      '</div>' +
+      '<div class="storybook-title"><strong>¡Bienvenidos al mundo de Walter!</strong><span>Una puerta a la imaginación, la música y el aprendizaje</span></div>' +
+      '<div class="storybook-controls"><button class="storybook-skip" type="button">Saltar intro →</button></div>';
+    document.body.insertBefore(intro,document.body.firstChild);
+    var skip = intro.querySelector('.storybook-skip');
+    var timer = null, fadeTimer = null, lastFocus = null;
+    var footer = document.querySelector('footer .wrap');
+    if (footer) {
+      var replay = document.createElement('button');
+      replay.type = 'button';
+      replay.className = 'storybook-replay';
+      replay.textContent = '🏡 Volver a entrar a la casita';
+      replay.addEventListener('click',function(){ showIntro(); });
+      footer.appendChild(replay);
+    }
+    function endIntro(){
+      if (intro.hidden || intro.classList.contains('storybook-leaving')) return;
+      clearTimeout(timer);
+      intro.classList.add('storybook-leaving');
+      try { localStorage.setItem(storageKey,'seen'); } catch (e) {}
+      fadeTimer = window.setTimeout(function(){
+        intro.hidden = true;
+        intro.classList.remove('is-playing','storybook-leaving');
+        document.body.classList.remove('storybook-lock');
+        if (lastFocus && document.contains(lastFocus) && typeof lastFocus.focus === 'function') {
+          lastFocus.focus({preventScroll:true});
+        } else {
+          var target = document.querySelector('.hero h1');
+          if (target) { target.setAttribute('tabindex','-1'); target.focus({preventScroll:true}); }
+        }
+      },reduce ? 20 : 850);
+    }
+    function showIntro(){
+      clearTimeout(timer);clearTimeout(fadeTimer);
+      lastFocus = document.activeElement;
+      intro.classList.remove('is-playing','storybook-leaving');
+      intro.hidden = false;
+      document.body.classList.add('storybook-lock');
+      void intro.offsetWidth; // reset animations for replay
+      skip.focus({preventScroll:true});
+      if (reduce) {
+        timer = window.setTimeout(endIntro,1900);
+      } else {
+        requestAnimationFrame(function(){ intro.classList.add('is-playing'); });
+        timer = window.setTimeout(endIntro,6400);
+      }
+    }
+    skip.addEventListener('click',endIntro);
+    document.addEventListener('keydown',function(e){
+      if (!intro.hidden && e.key === 'Escape') endIntro();
+      if (!intro.hidden && e.key === 'Tab') {
+        e.preventDefault();
+        skip.focus();
+      }
+    });
+    if (!hasVisited || replayRequested) showIntro();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',setupStorybook);
+  else setupStorybook();
+})();
