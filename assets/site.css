@@ -246,3 +246,80 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
   .nav.open ul{display:flex}
   .nav ul a{display:block;padding:10px 4px;font-size:16px}
 }
+
+
+/* ===== La casita de Walter: entrada de cuento (vista previa) ===== */
+.storybook-lock{overflow:hidden}
+.storybook-intro[hidden]{display:none!important}
+.storybook-intro{--cottage-forest:#123126;position:fixed;inset:0;z-index:9999;background:#c8eff0;overflow:hidden;color:#163b2b;isolation:isolate;opacity:1;transition:opacity .82s ease}
+.storybook-intro.storybook-leaving{opacity:0;pointer-events:none}
+.storybook-scene{position:absolute;inset:0;overflow:hidden;background:linear-gradient(180deg,#83c9e7 0%,#d5f2e9 50%,#f6df9c 80%,#9bc47c 81%)}
+.storybook-scene:before{content:"";position:absolute;left:-15%;right:-15%;bottom:9%;height:33%;background:radial-gradient(ellipse at 28% 120%,#609c64 0 42%,transparent 42.5%),radial-gradient(ellipse at 78% 120%,#76ab6e 0 46%,transparent 46.5%);opacity:.82}
+.storybook-scene:after{content:"";position:absolute;left:0;right:0;bottom:0;height:16%;background:linear-gradient(#89b76f,#436f48)}
+.storybook-sun{position:absolute;width:92px;height:92px;right:10%;top:13%;border-radius:50%;background:#ffda71;box-shadow:0 0 0 16px #ffda7140,0 0 95px #ffdc90}
+.storybook-cloud{position:absolute;width:155px;height:48px;border-radius:90px;background:#fff8e3;box-shadow:24px -20px 0 1px #fff8e3,68px -16px 0 9px #fff8e3,92px 0 0 0 #fff8e3;opacity:.9;animation:storybook-drift 11s ease-in-out infinite alternate}
+.storybook-cloud.c1{top:19%;left:9%}.storybook-cloud.c2{top:27%;right:16%;transform:scale(.68);animation-delay:-4s}
+.storybook-title{position:absolute;top:max(30px,6vh);left:5%;right:5%;z-index:7;text-align:center;filter:drop-shadow(0 3px 1px #fff5d4)}
+.storybook-title strong{display:block;font-family:'Baloo 2',system-ui,sans-serif;font-size:clamp(30px,4.9vw,64px);line-height:1.04;color:#173e2d}
+.storybook-title span{display:block;font-family:Nunito,system-ui,sans-serif;font-weight:800;font-size:clamp(14px,1.8vw,21px);color:#28543c;margin-top:6px}
+.storybook-hill{position:absolute;bottom:5%;left:-5%;width:115%;height:20%;background:#6ca45b;clip-path:ellipse(65% 64% at 50% 100%);z-index:2}
+.storybook-path{position:absolute;bottom:-2%;left:53%;width:clamp(160px,24vw,330px);height:30%;transform:translateX(-50%);background:repeating-linear-gradient(0deg,#e4c88d 0 34px,#edd5a3 35px 38px);clip-path:polygon(41% 0,59% 0,100% 100%,0 100%);box-shadow:inset 0 0 24px #b58a4d;z-index:3}
+.storybook-house{position:absolute;bottom:15%;left:53%;transform:translateX(-50%);width:clamp(230px,36vw,420px);height:clamp(230px,33vw,385px);z-index:5;filter:drop-shadow(9px 15px 12px #26492f65)}
+.storybook-chimney{position:absolute;width:15%;height:40%;left:73%;top:-4%;background:repeating-linear-gradient(180deg,#ad6741 0 16px,#75402b 17px 20px);border:5px solid #70391f;border-radius:7px;transform:rotate(4deg)}
+.storybook-wall{position:absolute;inset:29% 0 0;border:7px solid #795037;border-radius:15px 15px 24px 24px;background:repeating-linear-gradient(0deg,#f5db9f 0 25px,#e6c585 26px 29px);box-shadow:inset 0 0 32px #c9935680}
+.storybook-roof{position:absolute;top:-5%;left:-8%;width:116%;height:48%;background:repeating-linear-gradient(0deg,#b94c39 0 21px,#8e322f 22px 26px);clip-path:polygon(4% 100%,50% 3%,96% 100%);filter:drop-shadow(0 5px 2px #723f2f);z-index:5}
+.storybook-roof:after{content:"";position:absolute;inset:12% 7% 0;background:repeating-linear-gradient(0deg,transparent 0 21px,#f1b07a66 22px 25px);clip-path:polygon(0 100%,50% 0,100% 100%)}
+.storybook-window{position:absolute;top:22%;width:21%;height:28%;border:7px solid #75462e;border-radius:35px 35px 10px 10px;background:linear-gradient(145deg,#badfe0,#f6eaba);box-shadow:0 5px #9b603f,0 0 16px #ffec9e}
+.storybook-window:before,.storybook-window:after{content:"";position:absolute;background:#75462e}
+.storybook-window:before{width:6px;top:0;bottom:0;left:50%}
+.storybook-window:after{height:6px;left:0;right:0;top:58%}
+.storybook-window.left{left:10%}.storybook-window.right{right:10%}
+.storybook-planter{position:absolute;width:21%;height:12%;bottom:13%;background:#8d5333;border:4px solid #704026;border-radius:5px 5px 14px 14px}
+.storybook-planter.left{left:10%}.storybook-planter.right{right:10%}
+.storybook-planter:before{content:"✿ ✿ ✿";position:absolute;color:#ef7d68;font-size:clamp(13px,2vw,25px);left:0;right:0;bottom:65%;text-align:center;text-shadow:3px -14px #fee599}
+.storybook-doorway{position:absolute;bottom:-6px;left:35.5%;width:29%;height:58%;perspective:800px;overflow:visible;border:7px solid #693a26;border-radius:62px 62px 5px 5px;background:radial-gradient(ellipse at 50% 36%,#ffefb0,#f7b959 60%,#a85435);box-shadow:0 0 30px #ffde8c}
+.storybook-portal{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;opacity:.6;transform:scale(.5);transition:opacity .5s,transform .5s}
+.storybook-portal img{width:74%;max-height:60%;object-fit:contain}
+.storybook-door{position:absolute;inset:-1px;border-radius:58px 58px 3px 3px;border:5px solid #613421;background:repeating-linear-gradient(90deg,#ab7146 0 24%,#9c6039 24.5% 26%,#b97d4e 26.5% 49%);transform-origin:left center;transform:rotateY(0);backface-visibility:hidden;box-shadow:inset 0 0 20px #55351b80;z-index:2}
+.storybook-door:before{content:"";position:absolute;inset:10% 17%;border:3px ridge #d49b60;border-radius:45px 45px 4px 4px}
+.storybook-door:after{content:"";position:absolute;right:11%;top:55%;width:12px;height:12px;border-radius:50%;background:#f6d179;box-shadow:0 0 0 3px #815028}
+.storybook-walter{position:absolute;z-index:7;bottom:12%;left:8%;height:clamp(110px,22vh,250px);width:auto;max-width:34vw;object-fit:contain;filter:drop-shadow(5px 10px 3px #244c3355);transform-origin:center bottom}
+.storybook-saltarina{position:absolute;z-index:8;left:21%;bottom:43%;width:clamp(46px,7vw,85px);filter:drop-shadow(1px 4px 2px #234d3355)}
+.storybook-flower{position:absolute;z-index:6;bottom:12%;font-size:clamp(23px,3vw,38px);color:#fff3cf;text-shadow:2px 2px #d26774}
+.storybook-flower.f1{left:7%}.storybook-flower.f2{left:24%;bottom:9%;color:#ffba89}.storybook-flower.f3{right:12%}.storybook-flower.f4{right:25%;bottom:8%;color:#ffd26a}
+.storybook-controls{position:absolute;right:max(15px,3vw);bottom:max(18px,3vh);z-index:9}
+.storybook-skip{border:2px solid #fff1ca;border-radius:999px;padding:11px 19px;background:#123126;color:#fff5d4;font:800 15px Nunito,system-ui,sans-serif;cursor:pointer;box-shadow:0 5px 20px #142f2455}
+.storybook-skip:focus-visible,.storybook-replay:focus-visible{outline:4px solid #f28a24;outline-offset:4px}
+.storybook-replay{border:0;background:transparent;color:inherit;font:700 14px Nunito,system-ui,sans-serif;text-decoration:underline;cursor:pointer;padding:4px}
+.storybook-intro.is-playing .storybook-walter{animation:storybook-walk 4.9s .35s forwards}
+.storybook-intro.is-playing .storybook-saltarina{animation:storybook-butterfly 4.4s .5s forwards}
+.storybook-intro.is-playing .storybook-door{animation:storybook-open 2.8s 2.45s forwards}
+.storybook-intro.is-playing .storybook-portal{opacity:1;transform:scale(1)}
+.storybook-intro.is-playing .storybook-scene{animation:storybook-zoom .98s 5.3s ease-in both}
+@keyframes storybook-walk{0%{transform:translateX(0) translateY(0) scale(1);opacity:1}12%{transform:translateX(calc(var(--walk) * .22)) translateY(-8px) scale(1)}24%{transform:translateX(calc(var(--walk) * .43)) translateY(0) scale(1)}36%{transform:translateX(calc(var(--walk) * .62)) translateY(-9px) scale(1)}50%{transform:translateX(calc(var(--walk) * .85)) translateY(0) scale(1)}65%{transform:translateX(var(--walk)) scale(.88);opacity:1}80%{transform:translateX(var(--walk)) scale(.67);opacity:.96}100%{transform:translateX(var(--walk)) scale(.22);opacity:0}}
+@keyframes storybook-open{0%,7%{transform:rotateY(0)}55%,100%{transform:rotateY(-108deg)}}
+@keyframes storybook-butterfly{0%{transform:translate(0,0) rotate(-10deg)}30%{transform:translate(14vw,-38px) rotate(9deg)}70%{transform:translate(27vw,4vh) rotate(-7deg)}100%{transform:translate(33vw,12vh) scale(.2);opacity:0}}
+@keyframes storybook-drift{to{translate:30px 0}}
+@keyframes storybook-zoom{0%{transform:scale(1);opacity:1}100%{transform:scale(1.65);opacity:.1}}
+.storybook-intro{--walk:clamp(80px,32vw,450px)}
+@media (max-width:600px){
+ .storybook-house{left:57%;bottom:21%;width:min(67vw,280px);height:min(65vw,285px)}
+ .storybook-path{left:57%;bottom:0;height:28%}
+ .storybook-walter{left:2%;bottom:17%;height:clamp(100px,22vh,160px);max-width:32vw}
+ .storybook-saltarina{left:6%;bottom:44%;width:50px}
+ .storybook-intro{--walk:clamp(85px,35vw,180px)}
+ .storybook-title{top:8%;padding:0 5px}
+ .storybook-sun{right:4%;top:23%;width:65px;height:65px}
+ .storybook-cloud.c1{top:24%;left:-11%;transform:scale(.6)}
+ .storybook-cloud.c2{display:none}
+ .storybook-flower.f2,.storybook-flower.f4{display:none}
+}
+@media (max-height:570px){
+ .storybook-title{top:4%}.storybook-title strong{font-size:clamp(22px,5vh,34px)}
+ .storybook-house{bottom:9%;height:min(55vh,280px);width:min(40vw,330px)}
+ .storybook-walter{height:28vh;bottom:10%}
+}
+@media (prefers-reduced-motion:reduce){
+ .storybook-cloud,.storybook-intro.is-playing .storybook-walter,.storybook-intro.is-playing .storybook-saltarina,.storybook-intro.is-playing .storybook-door,.storybook-intro.is-playing .storybook-scene{animation:none!important}
+ .storybook-intro{transition:none}
+}
