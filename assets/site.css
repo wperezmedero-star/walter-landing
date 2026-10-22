@@ -230,3 +230,19 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 .scard .ph{display:flex;align-items:center;justify-content:center;font-family:'Baloo 2';font-size:44px;color:white}
 .scard .acts{flex-wrap:wrap}
 .mini{white-space:nowrap}
+
+/* Navegación accesible para teléfonos y tabletas */
+.nav-toggle{display:none;align-items:center;gap:7px;border:1px solid rgba(255,245,212,.45);border-radius:12px;background:transparent;color:var(--paper);font:800 14px Nunito;cursor:pointer;padding:7px 11px}
+.nav-toggle-icon{font-size:22px;line-height:1}
+.nav-toggle:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+@media (max-width:900px){
+  .nav .wrap{height:auto;min-height:70px;flex-wrap:wrap;gap:10px 12px;padding-top:8px;padding-bottom:8px}
+  .nav .brand{margin-right:auto}
+  .nav .brand img{height:44px}
+  .nav-toggle{display:inline-flex;order:3}
+  .nav .lang{order:1}
+  .nav .btn{order:2}
+  .nav ul{order:4;flex:0 0 100%;display:none;flex-direction:column;gap:0;margin:0;padding:8px 0;border-top:1px solid rgba(255,245,212,.25)}
+  .nav.open ul{display:flex}
+  .nav ul a{display:block;padding:10px 4px;font-size:16px}
+}
