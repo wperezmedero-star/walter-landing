@@ -126,6 +126,89 @@
     var title = intro.querySelector('.storybook-title');
     var landscape = intro.querySelector('.storybook-landscape');
     var lastFocus, timer, fadeTimer, isPlaying = false, suspended = [];
+    // Articulated walk: independent hips, knees, ankles and opposing arms.
+    // The source is one consistent rear-view Walter, so his face/clothes never morph.
+    var walker = intro.querySelector('.storybook-walker');
+    var rigImage = new Image(), rigReady = false, walkFrame = 0, playRequest = 0;
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var rig = document.createElementNS(svgNS,'svg');
+    rig.setAttribute('viewBox','0 0 1029 1529');
+    rig.setAttribute('class','storybook-walk-rig');
+    rig.setAttribute('aria-hidden','true');
+    var defs = document.createElementNS(svgNS,'defs'); rig.appendChild(defs);
+    var parts = {};
+    function part(name,path){
+      var clip = document.createElementNS(svgNS,'clipPath');
+      clip.id = 'walter-rig-' + name;
+      var shape = document.createElementNS(svgNS,'path'); shape.setAttribute('d',path);
+      clip.appendChild(shape); defs.appendChild(clip);
+      var group = document.createElementNS(svgNS,'g');
+      var img = document.createElementNS(svgNS,'image');
+      img.setAttribute('href','assets/walter-walk-puppet.webp');
+      img.setAttribute('width','1029'); img.setAttribute('height','1529');
+      img.setAttribute('clip-path','url(#' + clip.id + ')');
+      group.appendChild(img); rig.appendChild(group); parts[name] = group;
+    }
+    part('leftArm','M360 535L412 591L394 715L350 775L280 875L280 975L190 1000L140 960L157 865L234 724L278 641Z');
+    part('leftCalf','M316 1117L456 1117L430 1268L410 1375L290 1385L290 1260Z');
+    part('leftShoe','M290 1335L413 1335L440 1295L512 1320L520 1529L240 1529L240 1390Z');
+    part('leftThigh','M361 876L507 887L514 970L482 1080L449 1157L307 1157L326 1000Z');
+    part('rightCalf','M551 1127L681 1127L707 1280L702 1384L576 1384L555 1250Z');
+    part('rightShoe','M576 1340L698 1340L700 1295L782 1310L900 1420L900 1529L548 1529Z');
+    part('rightThigh','M501 884L657 879L710 1042L686 1169L550 1169L522 1074Z');
+    part('body','M0 0H1029V525L657 525L597 550L589 610L624 704L645 745L659 852L677 951L512 969L354 943L368 852L399 750L391 711L405 653L366 536L0 530Z');
+    part('rightArm','M636 532L696 578L747 664L802 747L872 855L902 971L846 1010L784 984L765 895L693 808L638 725L598 667L586 605Z');
+    walker.appendChild(rig);
+    var rigLoaded = new Promise(function(resolve){
+      rigImage.onload = function(){ rigReady = true; resolve(true); };
+      rigImage.onerror = function(){ resolve(false); };
+    });
+    rigImage.src = 'assets/walter-walk-puppet.webp';
+    function point(x,y){ return {x:x,y:y}; }
+    function distance(a,b){ return Math.hypot(b.x-a.x,b.y-a.y); }
+    function bone(name,a,b,c,d){
+      var angle = Math.atan2(d.y-c.y,d.x-c.x)-Math.atan2(b.y-a.y,b.x-a.x);
+      parts[name].setAttribute('transform','translate('+c.x+' '+c.y+') rotate('+(angle*180/Math.PI)+') translate('+(-a.x)+' '+(-a.y)+')');
+    }
+    var legs = [
+      {name:'left',hip:point(432,926),knee:point(383,1138),ankle:point(350,1365),phase:0},
+      {name:'right',hip:point(594,934),knee:point(617,1149),ankle:point(643,1366),phase:.5}
+    ];
+    function pose(seconds){
+      legs.forEach(function(leg){
+        var p = (seconds/1.18 + leg.phase) % 1;
+        // 60% planted, 40% swing: both feet can support Walter, never both airborne.
+        var swing = p >= .6, u = swing ? (p-.6)/.4 : p/.6;
+        var stride = swing ? -1+2*(u*u*(3-2*u)) : 1-2*u;
+        var lift = swing ? Math.sin(Math.PI*u)*48 : 0;
+        var hip = leg.hip;
+        var target = point(leg.ankle.x + stride*55,leg.ankle.y - 24 - stride*24 - lift);
+        var a = distance(hip,leg.knee), b = distance(leg.knee,leg.ankle);
+        var dx = target.x-hip.x, dy = target.y-hip.y;
+        var raw = Math.hypot(dx,dy), reach = Math.min(raw,a+b-.1);
+        target = point(hip.x+dx*reach/raw,hip.y+dy*reach/raw);
+        var along = (a*a-b*b+reach*reach)/(2*reach);
+        var bend = Math.sqrt(Math.max(0,a*a-along*along));
+        var knee = point(hip.x+dx/raw*along+dy/raw*bend,hip.y+dy/raw*along-dx/raw*bend);
+        bone(leg.name+'Thigh',hip,leg.knee,hip,knee);
+        bone(leg.name+'Calf',leg.knee,leg.ankle,knee,target);
+        var heel = swing ? -8*Math.sin(Math.PI*u) : 4*Math.sin(Math.PI*u);
+        parts[leg.name+'Shoe'].setAttribute('transform','translate('+(target.x-leg.ankle.x)+' '+(target.y-leg.ankle.y)+') rotate('+heel+' '+leg.ankle.x+' '+leg.ankle.y+')');
+      });
+      var arm = Math.sin(seconds/1.18*Math.PI*2)*7;
+      parts.leftArm.setAttribute('transform','rotate('+(-13+arm)+' 373 600)');
+      parts.rightArm.setAttribute('transform','rotate('+(15-arm)+' 647 599)');
+    }
+    function stopWalk(){ cancelAnimationFrame(walkFrame); walkFrame = 0; playRequest++; }
+    function startWalk(){
+      var start = performance.now();
+      function frame(now){
+        if (!isPlaying || intro.hidden || intro.classList.contains('storybook-leaving')) return;
+        pose(Math.max(0,(now-start-250)/1000));
+        walkFrame = requestAnimationFrame(frame);
+      }
+      pose(0); walkFrame = requestAnimationFrame(frame);
+    }
     var replay = document.createElement('button');
     replay.type = 'button'; replay.className = 'storybook-replay';
     var footer = document.querySelector('footer .wrap');
@@ -148,7 +231,7 @@
     }
     function endIntro(){
       if (intro.hidden || intro.classList.contains('storybook-leaving')) return;
-      clearTimeout(timer);
+      clearTimeout(timer); stopWalk();
       intro.classList.add('storybook-leaving');
       try { localStorage.setItem(storageKey,'seen'); } catch(e) {}
       fadeTimer = setTimeout(function(){
@@ -165,16 +248,22 @@
     function play(){
       if (isPlaying || intro.hidden) return;
       isPlaying = true;
-      // Crossing the door reveals the beginning of the real website.
       window.scrollTo({top:0,left:0,behavior:'instant'});
-      if (reduce) { endIntro(); return; }
-      intro.classList.add('is-playing');
       enter.disabled = true;
       skip.focus({preventScroll:true});
-      timer = setTimeout(endIntro,5600);
+      if (reduce) { endIntro(); return; }
+      var request = ++playRequest;
+      // Keep the greeting in place while artwork loads; Skip always stays usable.
+      Promise.race([rigLoaded,new Promise(function(resolve){ setTimeout(function(){resolve(false);},5000); })]).then(function(ready){
+        if (request !== playRequest || intro.hidden || !isPlaying) return;
+        if (!ready) { endIntro(); return; }
+        intro.classList.add('is-playing');
+        startWalk();
+        timer = setTimeout(endIntro,6400);
+      });
     }
     function showIntro(){
-      clearTimeout(timer); clearTimeout(fadeTimer);
+      clearTimeout(timer); clearTimeout(fadeTimer); stopWalk();
       lastFocus = document.activeElement;
       intro.classList.remove('is-playing','storybook-leaving');
       intro.hidden = false; isPlaying = false; enter.disabled = false;

@@ -262,20 +262,21 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 .storybook-door:before{content:"";position:absolute;inset:12% 15% 11%;border:2px solid #d6a25f85;border-radius:48% 48% 3px 3px;box-shadow:inset 0 0 12px #3b261f50}
 .storybook-door:after{content:"";position:absolute;right:12%;top:58%;width:9%;aspect-ratio:1;border-radius:50%;background:radial-gradient(at 30% 20%,#fff4af,#c79039);box-shadow:0 1px 3px #241e1b}
 .storybook-walker{position:absolute;z-index:3;left:32%;top:94%;width:13%;transform:translate(-50%,-100%);transform-origin:50% 100%;will-change:left,top,transform,opacity}
-.storybook-walter{width:100%;height:auto;position:relative;filter:drop-shadow(2px 4px 2px #3e34272b);transform-origin:50% 95%}
+.storybook-walter{display:block;width:100%;height:auto;position:relative;filter:drop-shadow(2px 4px 2px #3e34272b);transition:opacity .18s}
+.storybook-walk-rig{position:absolute;inset:0;width:100%;height:100%;overflow:visible;opacity:0;transition:opacity .18s;filter:drop-shadow(1px 2px 1px #3e342720)}
+.storybook-intro.is-playing .storybook-walk-rig{opacity:1}
 .storybook-footshadow{position:absolute;bottom:-.5%;left:10%;width:80%;height:7%;border-radius:50%;background:#30271d55;filter:blur(3px);transform:rotate(-6deg)}
 .storybook-flight{position:absolute;left:41%;top:55%;width:4.5%;z-index:4;transform-origin:center;will-change:left,top,transform,opacity}
 .storybook-saltarina{width:100%;height:auto;filter:drop-shadow(0 3px 2px #11291b40);transform-origin:50% 60%;animation:storybook-wings 1.3s ease-in-out infinite alternate}
 .storybook-intro.is-playing .storybook-title{opacity:0;transform:translateY(-12px);pointer-events:none}
 .storybook-intro.is-playing .storybook-enter{visibility:hidden}
-.storybook-intro.is-playing .storybook-walker{animation:storybook-approach 4.3s .25s cubic-bezier(.4,0,.25,1) both}
-.storybook-intro.is-playing .storybook-walter{animation:storybook-step .56s .25s ease-in-out 6 alternate}
+.storybook-intro.is-playing .storybook-walker{animation:storybook-approach 5.1s .25s linear both}
+.storybook-intro.is-playing .storybook-walter{opacity:0}
 .storybook-intro.is-playing .storybook-flight{animation:storybook-guide 3.7s .15s ease-in-out both}
 .storybook-intro.is-playing .storybook-door{animation:storybook-door-open 1.5s .6s ease-in-out both}
-.storybook-intro.is-playing .storybook-canvas{animation:storybook-enter-house 1.1s 4.3s cubic-bezier(.6,.05,.85,.6) both}
+.storybook-intro.is-playing .storybook-canvas{animation:storybook-enter-house 1.1s 5.1s cubic-bezier(.6,.05,.85,.6) both}
 @keyframes storybook-wings{from{transform:rotate(-5deg) scaleX(.9)}to{transform:rotate(5deg) scaleX(.55)}}
 @keyframes storybook-door-open{from{transform:rotateY(0)}to{transform:rotateY(-103deg)}}
-@keyframes storybook-step{from{transform:rotate(-1deg)}to{transform:rotate(1deg)}}
 @keyframes storybook-approach{0%{left:32%;top:94%;transform:translate(-50%,-100%) scale(1);opacity:1}30%{left:39%;top:85%;transform:translate(-50%,-100%) scale(.84);opacity:1}62%{left:47%;top:76%;transform:translate(-50%,-100%) scale(.63);opacity:1}82%{left:49.8%;top:72.3%;transform:translate(-50%,-100%) scale(.52);opacity:1}100%{left:49.8%;top:70.5%;transform:translate(-50%,-100%) scale(.43);opacity:0}}
 @keyframes storybook-guide{0%{left:41%;top:55%;transform:rotate(-10deg);opacity:1}30%{left:55%;top:39%;transform:rotate(9deg);opacity:1}60%{left:54%;top:52%;transform:rotate(-5deg);opacity:1}100%{left:49.8%;top:61%;transform:scale(.25);opacity:0}}
 @keyframes storybook-enter-house{0%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(3.2);opacity:0}}
