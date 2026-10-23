@@ -230,3 +230,86 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 .scard .ph{display:flex;align-items:center;justify-content:center;font-family:'Baloo 2';font-size:44px;color:white}
 .scard .acts{flex-wrap:wrap}
 .mini{white-space:nowrap}
+
+/* Navegación accesible para teléfonos y tabletas */
+.nav-toggle{display:none;align-items:center;gap:7px;border:1px solid rgba(255,245,212,.45);border-radius:12px;background:transparent;color:var(--paper);font:800 14px Nunito;cursor:pointer;padding:7px 11px}
+.nav-toggle-icon{font-size:22px;line-height:1}
+.nav-toggle:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+/* La casita ilustrada: separate scenery, door and character layers. */
+.storybook-lock{overflow:hidden}
+.hero h1[tabindex="-1"]:focus{outline:none}
+.storybook-intro[hidden]{display:none!important}
+.storybook-intro{position:fixed;inset:0;z-index:9999;isolation:isolate;overflow:hidden;background:#15382c;color:#fff5d4;opacity:1;transition:opacity .45s ease}
+.storybook-intro.storybook-leaving{opacity:0;pointer-events:none}
+.storybook-ambience{position:absolute;inset:-30px;background:linear-gradient(#12312630,#12312685),url(casita-cuento-v2.webp) center/cover;filter:blur(16px);transform:scale(1.08)}
+.storybook-scene{position:absolute;inset:0;overflow:hidden;transition:opacity .45s}
+.storybook-canvas{position:absolute;left:50%;top:50%;width:max(100vw,150vh);aspect-ratio:3/2;transform:translate(-50%,-50%);transform-origin:50% 61%;will-change:transform}
+.storybook-landscape{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover}
+.storybook-scene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#092b23a8 0%,#092b2338 22%,transparent 40%,transparent 74%,#092b2399 100%);pointer-events:none}
+.storybook-title{position:absolute;z-index:5;top:max(25px,5vh);left:20px;right:20px;text-align:center;transition:opacity .55s,transform .55s;text-shadow:0 3px 20px #09251c90}
+.storybook-kicker{display:inline-block;font:800 12px Nunito,system-ui,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#fff0c6;margin-bottom:12px}
+.storybook-title h2{font-family:'Baloo 2',system-ui,sans-serif;font-size:clamp(30px,4.3vw,60px);line-height:1.02;max-width:850px;margin:0 auto;text-wrap:balance;color:#fff9df}
+.storybook-title p{font-size:clamp(14px,1.45vw,18px);font-weight:700;margin:12px auto 0;max-width:600px;color:#fff4d5}
+.storybook-controls{position:absolute;left:16px;right:16px;bottom:max(30px,5vh);z-index:6;display:flex;align-items:center;flex-direction:column;gap:12px;transition:opacity .4s}
+.storybook-enter{border:1px solid #ffe5a0;border-radius:999px;padding:16px 32px;background:linear-gradient(135deg,#fff1b9,#f2ca62);box-shadow:0 8px 30px #102f2455,inset 0 1px #fff9da;color:#153b2b;font:900 18px Nunito,system-ui,sans-serif;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.storybook-enter:hover{transform:translateY(-2px);box-shadow:0 12px 30px #102f2488,inset 0 1px #fff9da}
+.storybook-skip{border:0;background:#15382c80;border-radius:999px;padding:7px 16px;color:#fff5d4;font:700 13px Nunito,system-ui,sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.storybook-enter:focus-visible,.storybook-skip:focus-visible,.storybook-replay:focus-visible{outline:3px solid #fff5d4;outline-offset:5px}
+.storybook-replay{border:0;background:transparent;color:inherit;font:700 14px Nunito,system-ui,sans-serif;text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:4px}
+.storybook-doorway{position:absolute;left:45.5%;top:48.4%;width:8.7%;height:23.9%;perspective:1000px;border-radius:48% 48% 2% 2%;z-index:2}
+.storybook-door{position:absolute;inset:0;border-radius:48% 48% 2% 2%;border:3px solid #533722;background:linear-gradient(100deg,#fff7d520,transparent 25%,#151d1920),repeating-linear-gradient(90deg,#9e673c 0 16%,#724a2b 16.4% 17.7%,#a66d42 18% 33%);box-shadow:inset 0 0 18px #391e1960,0 3px 6px #211e1955;transform-origin:1% 50%;backface-visibility:hidden}
+.storybook-door:before{content:"";position:absolute;inset:12% 15% 11%;border:2px solid #d6a25f85;border-radius:48% 48% 3px 3px;box-shadow:inset 0 0 12px #3b261f50}
+.storybook-door:after{content:"";position:absolute;right:12%;top:58%;width:9%;aspect-ratio:1;border-radius:50%;background:radial-gradient(at 30% 20%,#fff4af,#c79039);box-shadow:0 1px 3px #241e1b}
+.storybook-walker{position:absolute;z-index:3;left:32%;top:94%;width:13%;transform:translate(-50%,-100%);transform-origin:50% 100%;will-change:left,top,transform,opacity}
+.storybook-walter{display:block;width:100%;height:auto;position:relative;filter:drop-shadow(2px 4px 2px #3e34272b);transition:opacity .18s}
+.storybook-walk-rig{position:absolute;inset:0;width:100%;height:100%;overflow:visible;opacity:0;transition:opacity .18s;filter:drop-shadow(1px 2px 1px #3e342720)}
+.storybook-intro.is-playing .storybook-walk-rig{opacity:1}
+.storybook-footshadow{position:absolute;bottom:-.5%;left:10%;width:80%;height:7%;border-radius:50%;background:#30271d55;filter:blur(3px);transform:rotate(-6deg)}
+.storybook-flight{position:absolute;left:41%;top:55%;width:4.5%;z-index:4;transform-origin:center;will-change:left,top,transform,opacity}
+.storybook-saltarina{width:100%;height:auto;filter:drop-shadow(0 3px 2px #11291b40);transform-origin:50% 60%;animation:storybook-wings 1.3s ease-in-out infinite alternate}
+.storybook-intro.is-playing .storybook-title{opacity:0;transform:translateY(-12px);pointer-events:none}
+.storybook-intro.is-playing .storybook-enter{visibility:hidden}
+.storybook-intro.is-playing .storybook-walker{animation:storybook-approach 5.1s .25s linear both}
+.storybook-intro.is-playing .storybook-walter{opacity:0}
+.storybook-intro.is-playing .storybook-flight{animation:storybook-guide 3.7s .15s ease-in-out both}
+.storybook-intro.is-playing .storybook-door{animation:storybook-door-open 1.5s .6s ease-in-out both}
+.storybook-intro.is-playing .storybook-canvas{animation:storybook-enter-house 1.1s 5.1s cubic-bezier(.6,.05,.85,.6) both}
+@keyframes storybook-wings{from{transform:rotate(-5deg) scaleX(.9)}to{transform:rotate(5deg) scaleX(.55)}}
+@keyframes storybook-door-open{from{transform:rotateY(0)}to{transform:rotateY(-103deg)}}
+@keyframes storybook-approach{0%{left:32%;top:94%;transform:translate(-50%,-100%) scale(1);opacity:1}30%{left:39%;top:85%;transform:translate(-50%,-100%) scale(.84);opacity:1}62%{left:47%;top:76%;transform:translate(-50%,-100%) scale(.63);opacity:1}82%{left:49.8%;top:72.3%;transform:translate(-50%,-100%) scale(.52);opacity:1}100%{left:49.8%;top:70.5%;transform:translate(-50%,-100%) scale(.43);opacity:0}}
+@keyframes storybook-guide{0%{left:41%;top:55%;transform:rotate(-10deg);opacity:1}30%{left:55%;top:39%;transform:rotate(9deg);opacity:1}60%{left:54%;top:52%;transform:rotate(-5deg);opacity:1}100%{left:49.8%;top:61%;transform:scale(.25);opacity:0}}
+@keyframes storybook-enter-house{0%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(3.2);opacity:0}}
+.storybook-art-unavailable .storybook-scene{opacity:0}
+.storybook-art-unavailable .storybook-ambience{background:#15382c}
+@media (max-aspect-ratio:1/1){
+  .storybook-canvas{width:165vw;top:51%;min-width:0}
+  .storybook-title{top:max(35px,8vh);left:24px;right:24px}
+  .storybook-title h2{font-size:clamp(30px,6.8vw,48px);max-width:620px}
+  .storybook-title p{font-size:15px;max-width:310px;line-height:1.5}
+  .storybook-controls{bottom:max(34px,8vh)}
+  .storybook-scene:after{background:linear-gradient(#092b2388,transparent 45%,transparent 65%,#092b2366)}
+}
+@media (max-height:520px) and (min-aspect-ratio:1/1){
+  .storybook-title{top:16px}
+  .storybook-kicker{margin-bottom:5px;font-size:10px}
+  .storybook-title h2{font-size:28px;max-width:700px}
+  .storybook-title p{display:none}
+  .storybook-controls{bottom:16px;gap:5px}
+  .storybook-enter{font-size:15px;padding:10px 24px}
+}
+@media (prefers-reduced-motion:reduce){
+  .storybook-intro,.storybook-title,.storybook-controls{transition:none}
+  .storybook-intro *, .storybook-intro.is-playing *{animation:none!important}
+}
+@media (max-width:900px){
+  .nav .wrap{height:auto;min-height:70px;flex-wrap:wrap;gap:10px 12px;padding-top:8px;padding-bottom:8px}
+  .nav .brand{margin-right:auto}
+  .nav .brand img{height:44px}
+  .nav-toggle{display:inline-flex;order:3}
+  .nav .lang{order:1}
+  .nav .btn{order:2}
+  .nav ul{order:4;flex:0 0 100%;display:none;flex-direction:column;gap:0;margin:0;padding:8px 0;border-top:1px solid rgba(255,245,212,.25)}
+  .nav.open ul{display:flex}
+  .nav ul a{display:block;padding:10px 4px;font-size:16px}
+}
