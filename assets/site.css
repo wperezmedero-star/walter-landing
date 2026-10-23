@@ -238,6 +238,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 
 /* La casita ilustrada: separate scenery, door and character layers. */
 .storybook-lock{overflow:hidden}
+.hero h1[tabindex="-1"]:focus{outline:none}
 .storybook-intro[hidden]{display:none!important}
 .storybook-intro{position:fixed;inset:0;z-index:9999;isolation:isolate;overflow:hidden;background:#15382c;color:#fff5d4;opacity:1;transition:opacity .45s ease}
 .storybook-intro.storybook-leaving{opacity:0;pointer-events:none}
