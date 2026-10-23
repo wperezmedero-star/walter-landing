@@ -94,94 +94,112 @@
   }
 })();
 
-
-
-// ===== La casita de Walter: introducción animada, accesible y opcional =====
+// Illustrated entrance. Artwork and characters remain separate for depth.
 (function(){
   function setupStorybook(){
-    if (!document.querySelector('.hero .stage') || document.getElementById('walter-storybook-intro')) return;
-    var storageKey = 'walter-storybook-intro-v1';
+    if (!document.querySelector('.hero .stage')) return;
+    var storageKey = 'walter-storybook-intro-v2';
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var replayRequested = /(?:^|[?&])intro=1(?:&|$)/.test(window.location.search);
-    var hasVisited = false;
-    try { hasVisited = localStorage.getItem(storageKey) === 'seen'; } catch (e) {}
+    var replayRequested = /(?:^|[?&])intro=1(?:&|$)/.test(location.search);
+    var seen = false;
+    try { seen = localStorage.getItem(storageKey) === 'seen'; } catch(e) {}
     var intro = document.createElement('div');
     intro.id = 'walter-storybook-intro';
     intro.className = 'storybook-intro';
+    intro.hidden = true;
     intro.setAttribute('role','dialog');
     intro.setAttribute('aria-modal','true');
-    intro.setAttribute('aria-label','Bienvenida al mundo de Walter');
-    intro.hidden = true;
+    intro.setAttribute('aria-labelledby','storybook-heading');
     intro.innerHTML =
-      '<div class="storybook-scene" aria-hidden="true">' +
-        '<div class="storybook-sun"></div><div class="storybook-cloud c1"></div><div class="storybook-cloud c2"></div>' +
-        '<div class="storybook-hill"></div><div class="storybook-path"></div>' +
-        '<div class="storybook-house">' +
-          '<div class="storybook-chimney"></div><div class="storybook-wall">' +
-            '<div class="storybook-window left"></div><div class="storybook-window right"></div>' +
-            '<div class="storybook-planter left"></div><div class="storybook-planter right"></div>' +
-            '<div class="storybook-doorway"><div class="storybook-portal"><img src="assets/logo.webp" alt=""></div><div class="storybook-door"></div></div>' +
-          '</div><div class="storybook-roof"></div>' +
-        '</div>' +
-        '<span class="storybook-flower f1">✿</span><span class="storybook-flower f2">✿</span><span class="storybook-flower f3">✿</span><span class="storybook-flower f4">✿</span>' +
-        '<img class="storybook-walter" src="assets/walter.webp" alt="">' +
-        '<img class="storybook-saltarina" src="assets/saltarina.webp" alt="">' +
-      '</div>' +
-      '<div class="storybook-title"><strong>¡Bienvenidos al mundo de Walter!</strong><span>Una puerta a la imaginación, la música y el aprendizaje</span></div>' +
-      '<div class="storybook-controls"><button class="storybook-skip" type="button">Saltar intro →</button></div>';
+      '<div class="storybook-ambience" aria-hidden="true"></div>' +
+      '<div class="storybook-scene" aria-hidden="true"><div class="storybook-canvas">' +
+        '<img class="storybook-landscape" src="assets/casita-cuento-v2.webp" alt="" width="1536" height="1024" decoding="async">' +
+        '<div class="storybook-doorway"><div class="storybook-door"></div></div>' +
+        '<div class="storybook-walker"><span class="storybook-footshadow"></span><img class="storybook-walter" src="assets/walter.webp" alt="" width="560" height="835"></div>' +
+        '<div class="storybook-flight"><img class="storybook-saltarina" src="assets/saltarina.webp" alt="" width="200" height="136"></div>' +
+      '</div></div>' +
+      '<div class="storybook-title"><span class="storybook-kicker"></span><h2 id="storybook-heading"></h2><p></p></div>' +
+      '<div class="storybook-controls"><button class="storybook-enter" type="button"></button><button class="storybook-skip" type="button"></button></div>';
     document.body.insertBefore(intro,document.body.firstChild);
+    var enter = intro.querySelector('.storybook-enter');
     var skip = intro.querySelector('.storybook-skip');
-    var timer = null, fadeTimer = null, lastFocus = null;
+    var title = intro.querySelector('.storybook-title');
+    var landscape = intro.querySelector('.storybook-landscape');
+    var lastFocus, timer, fadeTimer, isPlaying = false, suspended = [];
+    var replay = document.createElement('button');
+    replay.type = 'button'; replay.className = 'storybook-replay';
     var footer = document.querySelector('footer .wrap');
-    if (footer) {
-      var replay = document.createElement('button');
-      replay.type = 'button';
-      replay.className = 'storybook-replay';
-      replay.textContent = '🏡 Volver a entrar a la casita';
-      replay.addEventListener('click',function(){ showIntro(); });
-      footer.appendChild(replay);
+    if (footer) footer.appendChild(replay);
+    function translate(){
+      var en = document.documentElement.lang === 'en';
+      intro.querySelector('.storybook-kicker').textContent = 'Walter Aprende Jugando';
+      intro.querySelector('h2').textContent = en ? 'A little door. A world to discover.' : 'Una pequeña puerta. Un mundo por descubrir.';
+      title.querySelector('p').textContent = en ? 'Music, stories and discoveries with Walter and Saltarina.' : 'Música, cuentos y descubrimientos con Walter y Saltarina.';
+      enter.textContent = en ? 'Enter with Walter →' : 'Entrar con Walter →';
+      skip.textContent = en ? 'Go straight to the website' : 'Ir directamente a la web';
+      replay.textContent = en ? 'Visit Walter’s cottage again' : 'Volver a entrar a la casita de Walter';
+    }
+    translate();
+    document.addEventListener('walter:languagechange',translate);
+    function restorePage(){
+      suspended.forEach(function(el){ el.inert = false; });
+      suspended = [];
+      document.body.classList.remove('storybook-lock');
     }
     function endIntro(){
       if (intro.hidden || intro.classList.contains('storybook-leaving')) return;
       clearTimeout(timer);
       intro.classList.add('storybook-leaving');
-      try { localStorage.setItem(storageKey,'seen'); } catch (e) {}
-      fadeTimer = window.setTimeout(function(){
+      try { localStorage.setItem(storageKey,'seen'); } catch(e) {}
+      fadeTimer = setTimeout(function(){
         intro.hidden = true;
         intro.classList.remove('is-playing','storybook-leaving');
-        document.body.classList.remove('storybook-lock');
-        if (lastFocus && document.contains(lastFocus) && typeof lastFocus.focus === 'function') {
-          lastFocus.focus({preventScroll:true});
-        } else {
-          var target = document.querySelector('.hero h1');
-          if (target) { target.setAttribute('tabindex','-1'); target.focus({preventScroll:true}); }
+        var focus = isPlaying ? document.querySelector('.hero h1') : (lastFocus && lastFocus !== document.body ? lastFocus : document.querySelector('.hero h1'));
+        isPlaying = false; restorePage();
+        if (focus && document.contains(focus)) {
+          if (!focus.hasAttribute('tabindex') && focus.tagName === 'H1') focus.setAttribute('tabindex','-1');
+          focus.focus({preventScroll:true});
         }
-      },reduce ? 20 : 850);
+      },reduce ? 0 : 450);
+    }
+    function play(){
+      if (isPlaying || intro.hidden) return;
+      isPlaying = true;
+      // Crossing the door reveals the beginning of the real website.
+      window.scrollTo({top:0,left:0,behavior:'instant'});
+      if (reduce) { endIntro(); return; }
+      intro.classList.add('is-playing');
+      enter.disabled = true;
+      skip.focus({preventScroll:true});
+      timer = setTimeout(endIntro,5600);
     }
     function showIntro(){
-      clearTimeout(timer);clearTimeout(fadeTimer);
+      clearTimeout(timer); clearTimeout(fadeTimer);
       lastFocus = document.activeElement;
       intro.classList.remove('is-playing','storybook-leaving');
-      intro.hidden = false;
+      intro.hidden = false; isPlaying = false; enter.disabled = false;
+      translate();
+      [].forEach.call(document.body.children,function(el){
+        if (el !== intro && el.tagName !== 'SCRIPT' && !el.inert) { el.inert = true; suspended.push(el); }
+      });
       document.body.classList.add('storybook-lock');
-      void intro.offsetWidth; // reset animations for replay
-      skip.focus({preventScroll:true});
-      if (reduce) {
-        timer = window.setTimeout(endIntro,1900);
-      } else {
-        requestAnimationFrame(function(){ intro.classList.add('is-playing'); });
-        timer = window.setTimeout(endIntro,6400);
-      }
+      enter.focus({preventScroll:true});
     }
+    landscape.addEventListener('error',function(){ intro.classList.add('storybook-art-unavailable'); });
+    enter.addEventListener('click',play);
     skip.addEventListener('click',endIntro);
+    replay.addEventListener('click',showIntro);
     document.addEventListener('keydown',function(e){
-      if (!intro.hidden && e.key === 'Escape') endIntro();
-      if (!intro.hidden && e.key === 'Tab') {
-        e.preventDefault();
-        skip.focus();
+      if (intro.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); endIntro(); }
+      if (e.key === 'Tab') {
+        if (isPlaying) { e.preventDefault(); skip.focus(); }
+        else if (e.shiftKey && document.activeElement === enter) { e.preventDefault(); skip.focus(); }
+        else if (!e.shiftKey && document.activeElement === skip) { e.preventDefault(); enter.focus(); }
       }
     });
-    if (!hasVisited || replayRequested) showIntro();
+    // Never replay unexpectedly for visitors arriving at a specific section.
+    if (replayRequested || (!seen && !location.hash)) showIntro();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',setupStorybook);
   else setupStorybook();
