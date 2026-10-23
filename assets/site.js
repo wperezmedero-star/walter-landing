@@ -98,11 +98,8 @@
 (function(){
   function setupStorybook(){
     if (!document.querySelector('.hero .stage')) return;
-    var storageKey = 'walter-storybook-intro-v2';
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var replayRequested = /(?:^|[?&])intro=1(?:&|$)/.test(location.search);
-    var seen = false;
-    try { seen = localStorage.getItem(storageKey) === 'seen'; } catch(e) {}
     var intro = document.createElement('div');
     intro.id = 'walter-storybook-intro';
     intro.className = 'storybook-intro';
@@ -213,6 +210,12 @@
     replay.type = 'button'; replay.className = 'storybook-replay';
     var footer = document.querySelector('footer .wrap');
     if (footer) footer.appendChild(replay);
+    var entranceLink = document.createElement('button');
+    entranceLink.type = 'button'; entranceLink.className = 'btn btn-ghost';
+    entranceLink.setAttribute('aria-haspopup','dialog');
+    entranceLink.setAttribute('aria-controls',intro.id);
+    var heroActions = document.querySelector('.hero .ctas');
+    if (heroActions) heroActions.appendChild(entranceLink);
     function translate(){
       var en = document.documentElement.lang === 'en';
       intro.querySelector('.storybook-kicker').textContent = 'Walter Aprende Jugando';
@@ -220,6 +223,7 @@
       title.querySelector('p').textContent = en ? 'Music, stories and discoveries with Walter and Saltarina.' : 'Música, cuentos y descubrimientos con Walter y Saltarina.';
       enter.textContent = en ? 'Enter with Walter →' : 'Entrar con Walter →';
       skip.textContent = en ? 'Go straight to the website' : 'Ir directamente a la web';
+      entranceLink.textContent = en ? 'See Walter’s entrance' : 'Ver la entrada de Walter';
       replay.textContent = en ? 'Visit Walter’s cottage again' : 'Volver a entrar a la casita de Walter';
     }
     translate();
@@ -233,7 +237,6 @@
       if (intro.hidden || intro.classList.contains('storybook-leaving')) return;
       clearTimeout(timer); stopWalk();
       intro.classList.add('storybook-leaving');
-      try { localStorage.setItem(storageKey,'seen'); } catch(e) {}
       fadeTimer = setTimeout(function(){
         intro.hidden = true;
         intro.classList.remove('is-playing','storybook-leaving');
@@ -278,6 +281,7 @@
     enter.addEventListener('click',play);
     skip.addEventListener('click',endIntro);
     replay.addEventListener('click',showIntro);
+    entranceLink.addEventListener('click',showIntro);
     document.addEventListener('keydown',function(e){
       if (intro.hidden) return;
       if (e.key === 'Escape') { e.preventDefault(); endIntro(); }
@@ -287,8 +291,9 @@
         else if (!e.shiftKey && document.activeElement === skip) { e.preventDefault(); enter.focus(); }
       }
     });
-    // Never replay unexpectedly for visitors arriving at a specific section.
-    if (replayRequested || (!seen && !location.hash)) showIntro();
+    // Home always opens with the cottage, including returning visitors.
+    // Deep links still open their section; the hero button can replay the entrance.
+    if (replayRequested || !location.hash || location.hash === '#inicio') showIntro();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',setupStorybook);
   else setupStorybook();
